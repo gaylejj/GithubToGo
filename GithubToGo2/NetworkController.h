@@ -10,6 +10,6 @@
 
 @interface NetworkController : NSObject
 
-+(void)downloadSearchResults:(NSString *)searchterm withCompletion:(void(^)(NSArray *repositories, NSString *errorDescription))completionHandler;
++(void)downloadSearchResults:(NSString *)searchterm forScope:(NSString *)scope withCompletion:(void(^)(NSArray *repositories, NSString *errorDescription))completionHandler;
 
 @end

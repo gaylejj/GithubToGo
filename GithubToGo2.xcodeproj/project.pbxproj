@@ -17,6 +17,11 @@
 		25A5C10719ABD23D00574499 /* NetworkController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5C10619ABD23D00574499 /* NetworkController.m */; };
 		25A5C10919ABD5F300574499 /* SampleResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 25A5C10819ABD5F300574499 /* SampleResponse.json */; };
 		25A5C10C19ABECF200574499 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5C10B19ABECF200574499 /* SearchViewController.m */; };
+		25B10B1E19AC4956001174F0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B10B1D19AC4956001174F0 /* User.m */; };
+		25B10B2119AC4960001174F0 /* Code.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B10B2019AC4960001174F0 /* Code.m */; };
+		25B10B2319AC4972001174F0 /* SampleCode.json in Resources */ = {isa = PBXBuildFile; fileRef = 25B10B2219AC4972001174F0 /* SampleCode.json */; };
+		25B10B2519AC4980001174F0 /* SampleUser.json in Resources */ = {isa = PBXBuildFile; fileRef = 25B10B2419AC4980001174F0 /* SampleUser.json */; };
+		25B9294019AD2045007097E4 /* RepositoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B9293F19AD2045007097E4 /* RepositoriesViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +54,14 @@
 		25A5C10819ABD5F300574499 /* SampleResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SampleResponse.json; sourceTree = "<group>"; };
 		25A5C10A19ABECF200574499 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		25A5C10B19ABECF200574499 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		25B10B1C19AC4956001174F0 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		25B10B1D19AC4956001174F0 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		25B10B1F19AC4960001174F0 /* Code.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Code.h; sourceTree = "<group>"; };
+		25B10B2019AC4960001174F0 /* Code.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Code.m; sourceTree = "<group>"; };
+		25B10B2219AC4972001174F0 /* SampleCode.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SampleCode.json; sourceTree = "<group>"; };
+		25B10B2419AC4980001174F0 /* SampleUser.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SampleUser.json; sourceTree = "<group>"; };
+		25B9293E19AD2045007097E4 /* RepositoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepositoriesViewController.h; sourceTree = "<group>"; };
+		25B9293F19AD2045007097E4 /* RepositoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepositoriesViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +110,8 @@
 				25A5C0E119ABD1BB00574499 /* AppDelegate.m */,
 				25A5C0E619ABD1BB00574499 /* Main.storyboard */,
 				25A5C10819ABD5F300574499 /* SampleResponse.json */,
+				25B10B2219AC4972001174F0 /* SampleCode.json */,
+				25B10B2419AC4980001174F0 /* SampleUser.json */,
 				25A5C0E919ABD1BB00574499 /* Images.xcassets */,
 				25A5C0DC19ABD1BB00574499 /* Supporting Files */,
 			);
@@ -138,6 +153,8 @@
 				25A5C10B19ABECF200574499 /* SearchViewController.m */,
 				25A5C10519ABD23D00574499 /* NetworkController.h */,
 				25A5C10619ABD23D00574499 /* NetworkController.m */,
+				25B9293E19AD2045007097E4 /* RepositoriesViewController.h */,
+				25B9293F19AD2045007097E4 /* RepositoriesViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -147,6 +164,10 @@
 			children = (
 				25A5C10219ABD1D600574499 /* Repository.h */,
 				25A5C10319ABD1D600574499 /* Repository.m */,
+				25B10B1F19AC4960001174F0 /* Code.h */,
+				25B10B2019AC4960001174F0 /* Code.m */,
+				25B10B1C19AC4956001174F0 /* User.h */,
+				25B10B1D19AC4956001174F0 /* User.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -238,6 +259,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25B10B2519AC4980001174F0 /* SampleUser.json in Resources */,
+				25B10B2319AC4972001174F0 /* SampleCode.json in Resources */,
 				25A5C0E819ABD1BB00574499 /* Main.storyboard in Resources */,
 				25A5C10919ABD5F300574499 /* SampleResponse.json in Resources */,
 				25A5C0EA19ABD1BB00574499 /* Images.xcassets in Resources */,
@@ -259,8 +282,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				25A5C0E519ABD1BB00574499 /* ViewController.m in Sources */,
+				25B9294019AD2045007097E4 /* RepositoriesViewController.m in Sources */,
+				25B10B1E19AC4956001174F0 /* User.m in Sources */,
 				25A5C0E219ABD1BB00574499 /* AppDelegate.m in Sources */,
 				25A5C0DF19ABD1BB00574499 /* main.m in Sources */,
+				25B10B2119AC4960001174F0 /* Code.m in Sources */,
 				25A5C10419ABD1D600574499 /* Repository.m in Sources */,
 				25A5C10C19ABECF200574499 /* SearchViewController.m in Sources */,
 				25A5C10719ABD23D00574499 /* NetworkController.m in Sources */,
@@ -450,6 +476,7 @@
 				25A5C0FB19ABD1BB00574499 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		25A5C0FC19ABD1BB00574499 /* Build configuration list for PBXNativeTarget "GithubToGo2Tests" */ = {
 			isa = XCConfigurationList;
@@ -458,6 +485,7 @@
 				25A5C0FE19ABD1BB00574499 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

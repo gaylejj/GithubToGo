@@ -9,10 +9,13 @@
 #import "SearchViewController.h"
 #import "NetworkController.h"
 #import "Repository.h"
+#import "Code.h"
+#import "User.h"
 
 @interface SearchViewController () <UITableViewDataSource, UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *repositories;
+@property (strong, nonatomic) NSArray *results;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
@@ -24,17 +27,41 @@
     // Do any additional setup after loading the view.
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.repositories.count;
+    return self.results.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"repos" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"search" forIndexPath:indexPath];
     
-    Repository *repo = self.repositories[indexPath.row];
     
-    cell.textLabel.text = repo.name;
     
+    if (self.searchBar.selectedScopeButtonIndex == 0) {
+        Repository *result = self.results[indexPath.row];
+        if (result) {
+            cell.textLabel.text = result.name;
+        } else {
+            cell.textLabel.text = @"Nothing Found";
+        }    } else if (self.searchBar.selectedScopeButtonIndex == 1) {
+        Code *result = self.results[indexPath.row];
+        if (result) {
+            cell.textLabel.text = result.name;
+        } else {
+            cell.textLabel.text = @"Nothing Found";
+        }
+    } else {
+        User *result = self.results[indexPath.row];
+        if (result) {
+            cell.textLabel.text = result.html_url;
+        } else {
+            cell.textLabel.text = @"Nothing Found";
+        }
+    }
     return cell;
 }
 
@@ -42,13 +69,50 @@
     NSString *searchTerm = searchBar.text;
     [searchBar resignFirstResponder];
     
-    [NetworkController downloadSearchResults:searchTerm withCompletion:^(NSArray *repositories, NSString *errorDescription) {
-        _repositories = repositories;
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self.tableView reloadData];
+    if (searchBar.selectedScopeButtonIndex == 0) {
+        NSString *repositories = @"repositories";
+        [NetworkController downloadSearchResults:searchTerm forScope:repositories withCompletion:^(NSArray *repositories, NSString *errorDescription) {
+            _results = repositories;
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                NSLog(@"Reloading Table");
+                [self.tableView reloadData];
+            }];
         }];
-    }];
+    } else if (searchBar.selectedScopeButtonIndex == 1) {
+        NSString *code = @"code";
+        [NetworkController downloadSearchResults:searchTerm forScope:code withCompletion:^(NSArray *repositories, NSString *errorDescription) {
+            _results = repositories;
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                NSLog(@"Reloading Table");
+                [self.tableView reloadData];
+            }];
+        }];
+    } else {
+        NSString *users = @"users";
+        [NetworkController downloadSearchResults:searchTerm forScope:users withCompletion:^(NSArray *repositories, NSString *errorDescription) {
+            _results = repositories;
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                NSLog(@"Reloading Table");
+                [self.tableView reloadData];
+            }];
+        }];
+    }
+}
+
+-(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+    searchBar.showsScopeBar = YES;
+    [searchBar sizeToFit];
+    [searchBar setShowsCancelButton:YES animated:YES];
     
+    return YES;
+}
+
+-(BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
+    searchBar.showsScopeBar = NO;
+    [searchBar sizeToFit];
+    [searchBar setShowsCancelButton:NO animated:YES];
+    
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning {

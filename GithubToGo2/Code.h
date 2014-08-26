@@ -1,5 +1,5 @@
 //
-//  Repository.h
+//  Code.h
 //  GithubToGo2
 //
 //  Created by Jeff Gayle on 8/25/14.
@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Repository : NSObject
+@interface Code : NSObject
 
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *html_url;
-@property (strong, nonatomic) NSNumber *repoID;
+
 
 -(instancetype)initFromDictionary:(NSDictionary *)responseDict;
 

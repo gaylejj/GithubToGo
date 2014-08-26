@@ -8,6 +8,8 @@
 
 #import "NetworkController.h"
 #import "Repository.h"
+#import "Code.h"
+#import "User.h"
 
 @interface NetworkController()
 
@@ -15,8 +17,8 @@
 
 @implementation NetworkController
 
-+(NSArray *) parseResponse:(NSData *)responseData {
-    NSMutableArray *repositories = [[NSMutableArray alloc]init];
++(NSArray *) parseResponse:(NSData *)responseData andScope:(NSString *)scope {
+    NSMutableArray *response = [[NSMutableArray alloc]init];
 
     
     NSError *error = nil;
@@ -28,21 +30,46 @@
     
     NSArray *jsonArray = responseDict[@"items"];
 
-    for (NSDictionary *repoDict in jsonArray) {
+    for (NSDictionary *resultDict in jsonArray) {
         
-        Repository *repo = [[Repository alloc]initFromDictionary:repoDict];
-        [repositories addObject:repo];
-        
+        if ([scope isEqualToString:@"repositories"])  {
+            Repository *repo = [[Repository alloc]initFromDictionary:resultDict];
+            [response addObject:repo];
+        } else if ([scope isEqualToString:@"code"]) {
+            Code *code = [[Code alloc]initFromDictionary:resultDict];
+            [response addObject:code];
+        } else {
+            User *user = [[User alloc]initFromDictionary:resultDict];
+            [response addObject:user];
+        }
+
     }
     
-    return repositories;
+    return response;
 }
 
-+(void)downloadSearchResults:(NSString *)searchterm withCompletion:(void(^)(NSArray *repositories, NSString *errorDescription))completionHandler {
++(void)downloadSearchResults:(NSString *)searchterm forScope:(NSString *)scope withCompletion:(void(^)(NSArray *results, NSString *errorDescription))completionHandler {
     
-    NSString *prefixURL = (@"https://api.github.com/search/repositories?&sort=stars&order=desc&q=");
-    NSString *termURL = (@"%@", searchterm);
-    NSString *urlString = [prefixURL stringByAppendingString:termURL];
+    NSString *prefixURL = (@"https://api.github.com/search/");
+    NSString *scopeInput = (@"%@", scope);
+    NSString *parameters = [[NSString alloc] init];
+    
+    if ([scope isEqualToString:@"repositories"]) {
+        parameters = (@"?&order=desc&sort=stars");
+    } else if ([scope isEqualToString:@"code"]) {
+        parameters = (@"?&order=desc&sort=indexed");
+    } else {
+        parameters = (@"?&order=desc&sort=followers");
+    }
+    
+    NSString *termURL = ([@"&q=" stringByAppendingString:(@"%@", searchterm)]);
+    NSString *newtermURL = [termURL stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    
+    // https://api.github.com/search/repositories?&sort=stars&order=desc&q=swift
+    
+    NSString *urlString = [[[prefixURL stringByAppendingString:scopeInput]
+                            stringByAppendingString:parameters]
+                           stringByAppendingString:newtermURL];
     
     NSLog(@"%@", urlString);
     
@@ -63,7 +90,7 @@
                 switch (responseCode) {
                     case 200:
                         NSLog(@"Everything OK");
-                        completionHandler([NetworkController parseResponse:data], nil);
+                        completionHandler([NetworkController parseResponse:data andScope:scope], nil);
                         break;
                     case 404:
                         NSLog(@"Not ok");
