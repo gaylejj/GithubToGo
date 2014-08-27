@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "NetworkController.h"
 
 @interface AppDelegate ()
 
@@ -17,7 +18,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    self.networkController = [[NetworkController alloc]init];
+    
     return YES;
+}
+
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    //Anytime our app opened by another app
+    [self.networkController handleCallbackURL:url];
+    
+    return true;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -10,9 +10,10 @@
 
 @interface Repository : NSObject
 
-@property (strong, nonatomic) NSString *name;
+//@property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *html_url;
 @property (strong, nonatomic) NSNumber *repoID;
+@property (strong, nonatomic) NSString *full_name;
 
 -(instancetype)initFromDictionary:(NSDictionary *)responseDict;
 

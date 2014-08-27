@@ -11,11 +11,13 @@
 #import "Repository.h"
 #import "Code.h"
 #import "User.h"
+#import "Constants.h"
 
 @interface SearchViewController () <UITableViewDataSource, UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *results;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+//-(void)openURL;
 
 @end
 
@@ -23,9 +25,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+//    [self performSelector:@selector(openURL) withObject:nil afterDelay:0.1];
     
     // Do any additional setup after loading the view.
 }
+      
+//-(void)openURL {
+//    NSString *urlString = [NSString stringWithFormat:kGitHubOAuthURL, kGitHubClientID, kGitHubCallbackURI, @"user,repo"];
+//    NSLog(@"%@", urlString);
+//    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+//}
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -44,7 +54,7 @@
     if (self.searchBar.selectedScopeButtonIndex == 0) {
         Repository *result = self.results[indexPath.row];
         if (result) {
-            cell.textLabel.text = result.name;
+            cell.textLabel.text = result.full_name;
         } else {
             cell.textLabel.text = @"Nothing Found";
         }    } else if (self.searchBar.selectedScopeButtonIndex == 1) {

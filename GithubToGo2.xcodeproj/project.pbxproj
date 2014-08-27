@@ -22,6 +22,7 @@
 		25B10B2319AC4972001174F0 /* SampleCode.json in Resources */ = {isa = PBXBuildFile; fileRef = 25B10B2219AC4972001174F0 /* SampleCode.json */; };
 		25B10B2519AC4980001174F0 /* SampleUser.json in Resources */ = {isa = PBXBuildFile; fileRef = 25B10B2419AC4980001174F0 /* SampleUser.json */; };
 		25B9294019AD2045007097E4 /* RepositoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B9293F19AD2045007097E4 /* RepositoriesViewController.m */; };
+		25B9294319AD24DB007097E4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B9294219AD24DB007097E4 /* Constants.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,8 @@
 		25B10B2419AC4980001174F0 /* SampleUser.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SampleUser.json; sourceTree = "<group>"; };
 		25B9293E19AD2045007097E4 /* RepositoriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepositoriesViewController.h; sourceTree = "<group>"; };
 		25B9293F19AD2045007097E4 /* RepositoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepositoriesViewController.m; sourceTree = "<group>"; };
+		25B9294119AD24DB007097E4 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		25B9294219AD24DB007097E4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,10 +154,10 @@
 				25A5C0E419ABD1BB00574499 /* ViewController.m */,
 				25A5C10A19ABECF200574499 /* SearchViewController.h */,
 				25A5C10B19ABECF200574499 /* SearchViewController.m */,
-				25A5C10519ABD23D00574499 /* NetworkController.h */,
-				25A5C10619ABD23D00574499 /* NetworkController.m */,
 				25B9293E19AD2045007097E4 /* RepositoriesViewController.h */,
 				25B9293F19AD2045007097E4 /* RepositoriesViewController.m */,
+				25A5C10519ABD23D00574499 /* NetworkController.h */,
+				25A5C10619ABD23D00574499 /* NetworkController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -168,6 +171,8 @@
 				25B10B2019AC4960001174F0 /* Code.m */,
 				25B10B1C19AC4956001174F0 /* User.h */,
 				25B10B1D19AC4956001174F0 /* User.m */,
+				25B9294119AD24DB007097E4 /* Constants.h */,
+				25B9294219AD24DB007097E4 /* Constants.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -286,6 +291,7 @@
 				25B10B1E19AC4956001174F0 /* User.m in Sources */,
 				25A5C0E219ABD1BB00574499 /* AppDelegate.m in Sources */,
 				25A5C0DF19ABD1BB00574499 /* main.m in Sources */,
+				25B9294319AD24DB007097E4 /* Constants.m in Sources */,
 				25B10B2119AC4960001174F0 /* Code.m in Sources */,
 				25A5C10419ABD1D600574499 /* Repository.m in Sources */,
 				25A5C10C19ABECF200574499 /* SearchViewController.m in Sources */,

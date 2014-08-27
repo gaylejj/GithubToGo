@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Repositories View Controller-->
         <scene sceneID="Lp6-pO-v2I">
             <objects>
-                <viewController id="VkJ-wR-9k1" customClass="ViewController" sceneMemberID="viewController">
+                <viewController id="VkJ-wR-9k1" customClass="RepositoriesViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zyA-xa-24T"/>
                         <viewControllerLayoutGuide type="bottom" id="Mt4-Og-BLa"/>
@@ -15,9 +15,42 @@
                     <view key="view" contentMode="scaleToFill" id="kBn-dE-gGv">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="eMz-ly-tNo">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="repos" id="Fcg-xB-6VA">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fcg-xB-6VA" id="Ena-Nh-HYO">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="VkJ-wR-9k1" id="N2q-Ac-TC6"/>
+                                    <outlet property="delegate" destination="VkJ-wR-9k1" id="SVm-KH-BF0"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="eMz-ly-tNo" secondAttribute="trailing" id="UGd-p7-aQE"/>
+                            <constraint firstItem="eMz-ly-tNo" firstAttribute="top" secondItem="kBn-dE-gGv" secondAttribute="top" id="VDN-ON-DeG"/>
+                            <constraint firstItem="eMz-ly-tNo" firstAttribute="leading" secondItem="kBn-dE-gGv" secondAttribute="leading" id="cZT-gR-d76"/>
+                            <constraint firstAttribute="bottom" secondItem="eMz-ly-tNo" secondAttribute="bottom" id="rO0-s0-S6g"/>
+                            <constraint firstItem="Mt4-Og-BLa" firstAttribute="top" secondItem="eMz-ly-tNo" secondAttribute="bottom" id="tVZ-wy-29Y"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="rO0-s0-S6g"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="bookmarks" id="Urq-QJ-SXQ" userLabel="My Repositories"/>
+                    <connections>
+                        <outlet property="tableView" destination="eMz-ly-tNo" id="hlW-fG-bKm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LV7-Gn-lcI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

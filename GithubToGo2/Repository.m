@@ -15,9 +15,10 @@
     self = [super init];
     
     if (self) {
-        self.name = [responseDict objectForKey:@"name"];
+//        self.name = [responseDict objectForKey:@"name"];
         self.html_url = [responseDict objectForKey:@"html_url"];
         self.repoID = [responseDict objectForKey:@"id"];
+        self.full_name = [responseDict objectForKey:@"full_name"];
     }
     return self;
 

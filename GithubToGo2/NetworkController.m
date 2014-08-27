@@ -10,14 +10,25 @@
 #import "Repository.h"
 #import "Code.h"
 #import "User.h"
+#import "Constants.h"
 
 @interface NetworkController()
+
+@property (strong, nonatomic) NSURLSession *session;
+@property (strong, nonatomic) NSString *token;
 
 @end
 
 @implementation NetworkController
 
-+(NSArray *) parseResponse:(NSData *)responseData andScope:(NSString *)scope {
+-(instancetype)init {
+    if (self = [super init]) {
+        self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    }
+    return self;
+}
+
++(NSArray *) parseSearchResponse:(NSData *)responseData andScope:(NSString *)scope {
     NSMutableArray *response = [[NSMutableArray alloc]init];
 
     
@@ -82,7 +93,7 @@
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
             NSLog(@"General Error");
-            NSLog([error localizedDescription]);
+            NSLog(@"%@", error.localizedDescription);
         } else {
             if ([response respondsToSelector:@selector(statusCode)]) {
                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -90,7 +101,7 @@
                 switch (responseCode) {
                     case 200:
                         NSLog(@"Everything OK");
-                        completionHandler([NetworkController parseResponse:data andScope:scope], nil);
+                        completionHandler([NetworkController parseSearchResponse:data andScope:scope], nil);
                         break;
                     case 404:
                         NSLog(@"Not ok");
@@ -105,6 +116,87 @@
         }
     }];
     [dataTask resume];
+}
+
+-(void)handleCallbackURL:(NSURL *)url {
+    NSLog(@"%@", url);
+    //Parsing URL get back after login
+    NSString *query = url.query;
+    NSArray *components = [query componentsSeparatedByString:@"code="];
+    
+    //this is our temp code
+    NSString *code = components.lastObject;
+    
+    //Setting up parameters for POST
+    NSString *postString = [NSString stringWithFormat:@"client_id=%@&client_secret=%@&code=%@", kGitHubClientID, kGitHubClientSecret, code];
+    
+    //Convert parameters to data for sending
+    NSData *data = [postString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    //Get the length
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long) [data length]];
+    
+    //Creating request for data task
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]init];
+    
+    //Set a bunch of request properties
+    [request setURL:[NSURL URLWithString:@"https://github.com/login/oauth/access_token"]];
+    [request setHTTPMethod:@"POST"];
+    
+    //Need lenth of data posting
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    //Tell it the type of data
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-type"];
+    [request setHTTPBody:data];
+    
+    [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        } else {
+            NSLog(@"%@", response);
+            self.token = [self convertDataToToken: data];
+            NSLog(@"%@", self.token);
+            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+            [configuration setHTTPAdditionalHeaders:@{@"Authorization": [NSString stringWithFormat:@"token %@", self.token]}];
+            self.session = [NSURLSession sessionWithConfiguration:configuration];
+            [self fetchUserRepos];
+        }
+        
+    }] resume];
+    
+}
+
+-(NSString *)convertDataToToken:(NSData *)data {
+    //parsing data we got back, turning it into string first
+    NSString *response = [[NSString alloc]initWithData:data encoding:NSASCIIStringEncoding];
+    
+    //cutting in half at &
+    NSArray *tokenComponents = [response componentsSeparatedByString:@"&"];
+    NSString *tokenWithCode = tokenComponents[0];
+    
+    //cut in half again at =
+    NSArray *tokenArray = [tokenWithCode componentsSeparatedByString:@"="];
+    return tokenArray.lastObject;
+}
+
+-(void)fetchUserRepos {
+    
+    NSURL *repoURL = [[NSURL alloc]initWithString:@"https://api.github.com/user/repos"];
+    NSLog(@"%@", self.session.configuration.HTTPAdditionalHeaders);
+    [[self.session dataTaskWithURL:repoURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        } else {
+            NSLog(@"%@", response);
+        }
+        NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        
+//        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        [self.delegate reposFinishedParsing:json];
+    }] resume];
 }
 
 @end

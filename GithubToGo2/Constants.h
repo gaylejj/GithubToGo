@@ -9,5 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface Constants : NSObject
+extern NSString * const kGitHubClientID;
+extern NSString * const kGitHubClientSecret;
+extern NSString * const kGitHubCallbackURI;
+extern NSString * const kGitHubOAuthURL;
 
 @end
