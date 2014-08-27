@@ -23,6 +23,7 @@
 		25B10B2519AC4980001174F0 /* SampleUser.json in Resources */ = {isa = PBXBuildFile; fileRef = 25B10B2419AC4980001174F0 /* SampleUser.json */; };
 		25B9294019AD2045007097E4 /* RepositoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B9293F19AD2045007097E4 /* RepositoriesViewController.m */; };
 		25B9294319AD24DB007097E4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B9294219AD24DB007097E4 /* Constants.m */; };
+		25DDC18519AD8C58001BFF71 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25DDC18419AD8C58001BFF71 /* UserViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,8 @@
 		25B9293F19AD2045007097E4 /* RepositoriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepositoriesViewController.m; sourceTree = "<group>"; };
 		25B9294119AD24DB007097E4 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		25B9294219AD24DB007097E4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		25DDC18319AD8C58001BFF71 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
+		25DDC18419AD8C58001BFF71 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +159,8 @@
 				25A5C10B19ABECF200574499 /* SearchViewController.m */,
 				25B9293E19AD2045007097E4 /* RepositoriesViewController.h */,
 				25B9293F19AD2045007097E4 /* RepositoriesViewController.m */,
+				25DDC18319AD8C58001BFF71 /* UserViewController.h */,
+				25DDC18419AD8C58001BFF71 /* UserViewController.m */,
 				25A5C10519ABD23D00574499 /* NetworkController.h */,
 				25A5C10619ABD23D00574499 /* NetworkController.m */,
 			);
@@ -293,6 +298,7 @@
 				25A5C0DF19ABD1BB00574499 /* main.m in Sources */,
 				25B9294319AD24DB007097E4 /* Constants.m in Sources */,
 				25B10B2119AC4960001174F0 /* Code.m in Sources */,
+				25DDC18519AD8C58001BFF71 /* UserViewController.m in Sources */,
 				25A5C10419ABD1D600574499 /* Repository.m in Sources */,
 				25A5C10C19ABECF200574499 /* SearchViewController.m in Sources */,
 				25A5C10719ABD23D00574499 /* NetworkController.m in Sources */,

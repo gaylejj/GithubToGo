@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="eMz-ly-tNo">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="repos" id="Fcg-xB-6VA">
@@ -38,11 +38,13 @@
                             <constraint firstAttribute="trailing" secondItem="eMz-ly-tNo" secondAttribute="trailing" id="UGd-p7-aQE"/>
                             <constraint firstItem="eMz-ly-tNo" firstAttribute="top" secondItem="kBn-dE-gGv" secondAttribute="top" id="VDN-ON-DeG"/>
                             <constraint firstItem="eMz-ly-tNo" firstAttribute="leading" secondItem="kBn-dE-gGv" secondAttribute="leading" id="cZT-gR-d76"/>
+                            <constraint firstItem="eMz-ly-tNo" firstAttribute="top" secondItem="zyA-xa-24T" secondAttribute="bottom" id="myj-4O-MvK"/>
                             <constraint firstAttribute="bottom" secondItem="eMz-ly-tNo" secondAttribute="bottom" id="rO0-s0-S6g"/>
                             <constraint firstItem="Mt4-Og-BLa" firstAttribute="top" secondItem="eMz-ly-tNo" secondAttribute="bottom" id="tVZ-wy-29Y"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="VDN-ON-DeG"/>
                                 <exclude reference="rO0-s0-S6g"/>
                             </mask>
                         </variation>
@@ -56,10 +58,10 @@
             </objects>
             <point key="canvasLocation" x="2424" y="1145"/>
         </scene>
-        <!--View Controller-->
+        <!--User View Controller-->
         <scene sceneID="A6y-kc-AS4">
             <objects>
-                <viewController id="t7Y-jv-AKf" sceneMemberID="viewController">
+                <viewController id="t7Y-jv-AKf" customClass="UserViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TWD-C4-seZ"/>
                         <viewControllerLayoutGuide type="bottom" id="P7C-9M-ffe"/>
@@ -67,9 +69,41 @@
                     <view key="view" contentMode="scaleToFill" id="nlG-3N-JrG">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="mdW-Ei-gzx">
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="follower" id="Cij-pu-8Ih">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cij-pu-8Ih" id="tg8-a6-hMb">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="t7Y-jv-AKf" id="ZVx-M6-L3w"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="P7C-9M-ffe" firstAttribute="top" secondItem="mdW-Ei-gzx" secondAttribute="bottom" id="RaV-Oz-DvN"/>
+                            <constraint firstItem="mdW-Ei-gzx" firstAttribute="leading" secondItem="nlG-3N-JrG" secondAttribute="leading" id="TRo-Oq-L6r"/>
+                            <constraint firstAttribute="trailing" secondItem="mdW-Ei-gzx" secondAttribute="trailing" id="bBI-Yo-Hda"/>
+                            <constraint firstItem="mdW-Ei-gzx" firstAttribute="top" secondItem="TWD-C4-seZ" secondAttribute="bottom" id="tC6-R5-6Ge"/>
+                            <constraint firstItem="mdW-Ei-gzx" firstAttribute="top" secondItem="nlG-3N-JrG" secondAttribute="top" id="zPP-39-dPE"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="zPP-39-dPE"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="Ybx-cJ-Dya" userLabel="User"/>
+                    <connections>
+                        <outlet property="tableView" destination="mdW-Ei-gzx" id="3co-qA-M1V"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ciN-4C-Cnf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

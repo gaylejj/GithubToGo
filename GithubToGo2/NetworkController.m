@@ -161,7 +161,7 @@
             NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
             [configuration setHTTPAdditionalHeaders:@{@"Authorization": [NSString stringWithFormat:@"token %@", self.token]}];
             self.session = [NSURLSession sessionWithConfiguration:configuration];
-            [self fetchUserRepos];
+            [self fetchUserReposAndFollowers];
         }
         
     }] resume];
@@ -181,9 +181,10 @@
     return tokenArray.lastObject;
 }
 
--(void)fetchUserRepos {
+-(void)fetchUserReposAndFollowers {
     
     NSURL *repoURL = [[NSURL alloc]initWithString:@"https://api.github.com/user/repos"];
+    NSURL *followerURL = [[NSURL alloc]initWithString:@"https://api.github.com/user/followers"];
     NSLog(@"%@", self.session.configuration.HTTPAdditionalHeaders);
     [[self.session dataTaskWithURL:repoURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
@@ -192,10 +193,24 @@
         } else {
             NSLog(@"%@", response);
         }
-        NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        NSArray *reposJson = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         
-//        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        [self.delegate reposFinishedParsing:json];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(reposFinishedParsing:)]) {
+            [self.delegate reposFinishedParsing:reposJson];
+        }
+    }] resume];
+    
+    [[self.session dataTaskWithURL:followerURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            NSLog(@"%@", error.localizedDescription);
+        } else {
+            NSLog(@"%@", response);
+        }
+        NSArray *followersJson = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(followersFinishedParsing:)]) {
+            [self.delegate followersFinishedParsing:followersJson];
+        }
     }] resume];
 }
 

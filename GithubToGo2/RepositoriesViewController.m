@@ -36,8 +36,6 @@
         NSLog(@"%@", urlString);
         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
     }
-
-    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
