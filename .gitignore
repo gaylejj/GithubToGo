@@ -17,8 +17,8 @@ DerivedData
 *.ipa
 *.xcuserstate
 .DS_Store
-Constant.h
-Constant.m
+Constants.h
+Constants.m
 
 # CocoaPods
 #
