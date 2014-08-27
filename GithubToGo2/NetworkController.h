@@ -12,8 +12,8 @@
 @protocol NetworkControllerDelegate <NSObject>
 
 @optional
--(NSArray *)reposFinishedParsing:(NSArray *)jsonArray;
--(NSArray *)followersFinishedParsing:(NSArray *)jsonArray;
+-(void)reposFinishedParsing:(NSArray *)jsonArray;
+-(void)followersFinishedParsing:(NSArray *)jsonArray;
 
 @end
 

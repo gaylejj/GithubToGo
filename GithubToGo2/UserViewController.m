@@ -40,7 +40,7 @@
     }
 }
 
--(NSArray *)followersFinishedParsing:(NSArray *)jsonArray {
+-(void)followersFinishedParsing:(NSArray *)jsonArray {
     NSMutableArray *followers = [[NSMutableArray alloc]init];
     
     for (NSDictionary *followerDict in jsonArray) {
@@ -54,8 +54,6 @@
         [self.tableView reloadData];
     }];
     
-    return self.userFollowers;
-
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -63,6 +61,8 @@
     
     User *follower = self.userFollowers[indexPath.row];
     cell.textLabel.text = follower.avatar_url;
+    cell.textLabel.adjustsFontSizeToFitWidth = true;
+    cell.imageView.image = follower.avatarImage;
     
     return cell;
 }

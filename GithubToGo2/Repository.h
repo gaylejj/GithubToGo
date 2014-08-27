@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSString *html_url;
 @property (strong, nonatomic) NSNumber *repoID;
 @property (strong, nonatomic) NSString *full_name;
+@property (strong, nonatomic) NSString *language;
 
 -(instancetype)initFromDictionary:(NSDictionary *)responseDict;
 

@@ -55,6 +55,9 @@
         Repository *result = self.results[indexPath.row];
         if (result) {
             cell.textLabel.text = result.full_name;
+            cell.textLabel.adjustsFontSizeToFitWidth = true;
+            cell.detailTextLabel.text = result.language;
+            cell.detailTextLabel.adjustsFontSizeToFitWidth = true;
         } else {
             cell.textLabel.text = @"Nothing Found";
         }    } else if (self.searchBar.selectedScopeButtonIndex == 1) {

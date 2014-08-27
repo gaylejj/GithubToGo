@@ -11,7 +11,7 @@
 #import "Constants.h"
 #import "NetworkController.h"
 
-@interface RepositoriesViewController () <UITableViewDataSource, UITableViewDelegate, NetworkControllerDelegate>
+@interface RepositoriesViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, NetworkControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 //@property (strong, nonatomic) NetworkController *networkController;
 @property (strong, nonatomic) NSMutableArray *myRepositories;
@@ -44,6 +44,7 @@
     Repository *repo = self.myRepositories[indexPath.row];
     
     cell.textLabel.text = repo.full_name;
+    cell.detailTextLabel.text = repo.language;
     
     return cell;
 }
@@ -52,7 +53,7 @@
     return self.myRepositories.count;
 }
 
--(NSArray *)reposFinishedParsing:(NSArray *)jsonArray {
+-(void)reposFinishedParsing:(NSArray *)jsonArray {
     NSMutableArray *repos = [[NSMutableArray alloc]init];
     
     for (NSDictionary *repoDict in jsonArray) {
@@ -62,11 +63,11 @@
     
     self.myRepositories = repos;
     [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+        self.tableView.hidden = false;
+        
         [self.tableView reloadData];
     }];
-    
-    return self.myRepositories;
-}
+};
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

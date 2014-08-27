@@ -17,6 +17,9 @@
         self.avatar_url = [responseDict objectForKey:@"avatar_url"];
         self.html_url = [responseDict objectForKey:@"html_url"];
         self.followers_url = [responseDict objectForKey:@"followers_url"];
+        NSURL *avatarURL = [NSURL URLWithString:self.avatar_url];
+        NSData *data = [NSData dataWithContentsOfURL:avatarURL];
+        self.avatarImage = [UIImage imageWithData:data];
     }
     return self;
 }

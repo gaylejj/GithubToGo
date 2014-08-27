@@ -183,7 +183,7 @@
 
 -(void)fetchUserReposAndFollowers {
     
-    NSURL *repoURL = [[NSURL alloc]initWithString:@"https://api.github.com/user/repos"];
+    NSURL *repoURL = [[NSURL alloc]initWithString:@"https://api.github.com/user/repos?sort=pushed"];
     NSURL *followerURL = [[NSURL alloc]initWithString:@"https://api.github.com/user/followers"];
     NSLog(@"%@", self.session.configuration.HTTPAdditionalHeaders);
     [[self.session dataTaskWithURL:repoURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
