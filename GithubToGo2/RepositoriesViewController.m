@@ -11,9 +11,8 @@
 #import "Constants.h"
 #import "NetworkController.h"
 
-@interface RepositoriesViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, NetworkControllerDelegate>
+@interface RepositoriesViewController () <UITableViewDataSource, UITableViewDelegate, NetworkControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-//@property (strong, nonatomic) NetworkController *networkController;
 @property (strong, nonatomic) NSMutableArray *myRepositories;
 
 @end

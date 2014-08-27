@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSString *avatar_url;
 @property (strong, nonatomic) NSString *html_url;
 @property (strong, nonatomic) NSString *followers_url;
+@property (strong, nonatomic) NSString *login;
 @property (nonatomic) UIImage *avatarImage;
 
 -(instancetype)initFromDictionary:(NSDictionary *)responseDict;

@@ -12,12 +12,13 @@
 #import "Code.h"
 #import "User.h"
 #import "Constants.h"
+#import "UserCollectionViewCell.h"
 
-@interface SearchViewController () <UITableViewDataSource, UISearchBarDelegate>
+@interface SearchViewController () <UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *results;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-//-(void)openURL;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
 
@@ -25,21 +26,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-//    [self performSelector:@selector(openURL) withObject:nil afterDelay:0.1];
-    
+    self.searchBar.delegate = self;
     // Do any additional setup after loading the view.
 }
-      
-//-(void)openURL {
-//    NSString *urlString = [NSString stringWithFormat:kGitHubOAuthURL, kGitHubClientID, kGitHubCallbackURI, @"user,repo"];
-//    NSLog(@"%@", urlString);
-//    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
-//}
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
+    self.collectionView.hidden = true;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -60,7 +54,8 @@
             cell.detailTextLabel.adjustsFontSizeToFitWidth = true;
         } else {
             cell.textLabel.text = @"Nothing Found";
-        }    } else if (self.searchBar.selectedScopeButtonIndex == 1) {
+        }
+    } else if (self.searchBar.selectedScopeButtonIndex == 1) {
         Code *result = self.results[indexPath.row];
         if (result) {
             cell.textLabel.text = result.name;
@@ -78,16 +73,43 @@
     return cell;
 }
 
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UserCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"users" forIndexPath:indexPath];
+    
+    if (self.searchBar.selectedScopeButtonIndex == 2) {
+        User *user = self.results[indexPath.row];
+        cell.avatarImageView.image = user.avatarImage;
+        cell.nameLabel.text = user.login;
+        cell.nameLabel.adjustsFontSizeToFitWidth = true;
+    }
+    
+    return cell;
+}
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.results.count;
+}
+
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     NSString *searchTerm = searchBar.text;
     [searchBar resignFirstResponder];
+    self.tableView.hidden = true;
+    self.collectionView.hidden = true;
     
     if (searchBar.selectedScopeButtonIndex == 0) {
         NSString *repositories = @"repositories";
+        UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleGray];
+        activityIndicator.center = self.collectionView.center;
+        [activityIndicator startAnimating];
+        [self.view addSubview:activityIndicator];
+        
         [NetworkController downloadSearchResults:searchTerm forScope:repositories withCompletion:^(NSArray *repositories, NSString *errorDescription) {
             _results = repositories;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSLog(@"Reloading Table");
+                [activityIndicator stopAnimating];
+
+                self.tableView.hidden = false;
                 [self.tableView reloadData];
             }];
         }];
@@ -98,18 +120,30 @@
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSLog(@"Reloading Table");
                 [self.tableView reloadData];
+                self.tableView.hidden = false;
             }];
         }];
     } else {
+        self.collectionView.hidden = false;
+        UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhiteLarge];
+        activityIndicator.center = self.collectionView.center;
+        [activityIndicator startAnimating];
+        [self.view addSubview:activityIndicator];
+
         NSString *users = @"users";
         [NetworkController downloadSearchResults:searchTerm forScope:users withCompletion:^(NSArray *repositories, NSString *errorDescription) {
             _results = repositories;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSLog(@"Reloading Table");
-                [self.tableView reloadData];
+                [activityIndicator stopAnimating];
+                [self.collectionView reloadData];
             }];
         }];
     }
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
 }
 
 -(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {

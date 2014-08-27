@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25570B9219AE75250053A9CD /* UserCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25570B9119AE75250053A9CD /* UserCollectionViewCell.m */; };
 		25A5C0DF19ABD1BB00574499 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5C0DE19ABD1BB00574499 /* main.m */; };
 		25A5C0E219ABD1BB00574499 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5C0E119ABD1BB00574499 /* AppDelegate.m */; };
 		25A5C0E519ABD1BB00574499 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5C0E419ABD1BB00574499 /* ViewController.m */; };
@@ -37,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		25570B9019AE75250053A9CD /* UserCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCollectionViewCell.h; sourceTree = "<group>"; };
+		25570B9119AE75250053A9CD /* UserCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCollectionViewCell.m; sourceTree = "<group>"; };
 		25A5C0D919ABD1BB00574499 /* GithubToGo2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubToGo2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25A5C0DD19ABD1BB00574499 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25A5C0DE19ABD1BB00574499 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -185,6 +188,8 @@
 		25A5C10119ABD1C600574499 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				25570B9019AE75250053A9CD /* UserCollectionViewCell.h */,
+				25570B9119AE75250053A9CD /* UserCollectionViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -300,6 +305,7 @@
 				25B10B2119AC4960001174F0 /* Code.m in Sources */,
 				25DDC18519AD8C58001BFF71 /* UserViewController.m in Sources */,
 				25A5C10419ABD1D600574499 /* Repository.m in Sources */,
+				25570B9219AE75250053A9CD /* UserCollectionViewCell.m in Sources */,
 				25A5C10C19ABECF200574499 /* SearchViewController.m in Sources */,
 				25A5C10719ABD23D00574499 /* NetworkController.m in Sources */,
 			);

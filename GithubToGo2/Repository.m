@@ -20,6 +20,9 @@
         self.repoID = [responseDict objectForKey:@"id"];
         self.full_name = [responseDict objectForKey:@"full_name"];
         self.language = [responseDict objectForKey:@"language"];
+        if ([self.language isEqual:[NSNull null]]) {
+            self.language = @"Language not found";
+        }
     }
     return self;
 
