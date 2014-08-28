@@ -21,6 +21,9 @@
 
 +(void)downloadSearchResults:(NSString *)searchterm forScope:(NSString *)scope withCompletion:(void(^)(NSArray *repositories, NSString *errorDescription))completionHandler;
 -(void)handleCallbackURL:(NSURL *)url;
+-(void)beginOAuth;
+-(void)createRepoWithName:(NSString *)repoName;
+-(void)fetchUserReposAndFollowers;
 
 @property (nonatomic, weak) id<NetworkControllerDelegate> delegate;
 

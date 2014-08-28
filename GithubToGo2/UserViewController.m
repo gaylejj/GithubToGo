@@ -16,6 +16,7 @@
 
 @property (strong, nonatomic) NSArray *userFollowers;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NetworkController *appDelegateNetworkController;
 
 @end
 
@@ -26,6 +27,7 @@
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     appDelegate.networkController.delegate = self;
+    self.appDelegateNetworkController = appDelegate.networkController;
     
     // Do any additional setup after loading the view.
 }
@@ -33,11 +35,12 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if (self.userFollowers == nil) {
-        NSString *urlString = [NSString stringWithFormat:kGitHubOAuthURL, kGitHubClientID, kGitHubCallbackURI, @"user,repo"];
-        NSLog(@"%@", urlString);
-        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
-    }
+    [self.appDelegateNetworkController beginOAuth];
+//    if (self.userFollowers == nil) {
+//        NSString *urlString = [NSString stringWithFormat:kGitHubOAuthURL, kGitHubClientID, kGitHubCallbackURI, @"user,repo"];
+//        NSLog(@"%@", urlString);
+//        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+//    }
 }
 
 -(void)followersFinishedParsing:(NSArray *)jsonArray {

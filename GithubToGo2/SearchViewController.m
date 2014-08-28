@@ -17,7 +17,8 @@
 
 @interface SearchViewController () <UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *results;
+@property (strong, nonatomic) NSArray *repositories;
+@property (strong, nonatomic) NSArray *users;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) NSOperationQueue *imageQueue;
@@ -36,8 +37,15 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.tableView reloadData];
-    self.collectionView.hidden = true;
+    self.navigationController.navigationBarHidden = true;
+
+    if (self.users) {
+        self.collectionView.hidden = false;
+        self.tableView.hidden = true;
+    } else {
+        self.tableView.hidden = false;
+        self.collectionView.hidden = true;
+    }
 }
 
 -(void)fetchUserImages:(NSString *)avatar_url withCompletion:(void (^)(UIImage *avatarImage))completion {
@@ -56,7 +64,7 @@
 #pragma mark Table View Data Source
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.results.count;
+    return self.repositories.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -65,26 +73,12 @@
     
     
     if (self.searchBar.selectedScopeButtonIndex == 0) {
-        Repository *result = self.results[indexPath.row];
+        Repository *result = self.repositories[indexPath.row];
         if (result) {
             cell.textLabel.text = result.full_name;
             cell.textLabel.adjustsFontSizeToFitWidth = true;
             cell.detailTextLabel.text = result.language;
             cell.detailTextLabel.adjustsFontSizeToFitWidth = true;
-        } else {
-            cell.textLabel.text = @"Nothing Found";
-        }
-    } else if (self.searchBar.selectedScopeButtonIndex == 1) {
-        Code *result = self.results[indexPath.row];
-        if (result) {
-            cell.textLabel.text = result.name;
-        } else {
-            cell.textLabel.text = @"Nothing Found";
-        }
-    } else {
-        User *result = self.results[indexPath.row];
-        if (result) {
-            cell.textLabel.text = result.html_url;
         } else {
             cell.textLabel.text = @"Nothing Found";
         }
@@ -99,8 +93,8 @@
     
     
     //Tagging for loading cells individually (see kirby's). If image == nil...
-    if (self.searchBar.selectedScopeButtonIndex == 2) {
-        User *user = self.results[indexPath.row];
+    if (self.searchBar.selectedScopeButtonIndex == 1) {
+        User *user = self.users[indexPath.row];
         
         NSInteger currentTag = cell.tag + 1;
         cell.tag = currentTag;
@@ -124,7 +118,7 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.results.count;
+    return self.users.count;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -136,7 +130,7 @@
     WebViewViewController *webViewVC = segue.destinationViewController;
     
     NSIndexPath *indexPath = sender;
-    User *user = self.results[indexPath.row];
+    User *user = self.users[indexPath.row];
     webViewVC.html_url = user.html_url;
     
 }
@@ -157,7 +151,7 @@
         [self.view addSubview:self.activityIndicator];
         
         [NetworkController downloadSearchResults:searchTerm forScope:repositories withCompletion:^(NSArray *repositories, NSString *errorDescription) {
-            _results = repositories;
+            _repositories = repositories;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSLog(@"Reloading Table");
                 [self.activityIndicator stopAnimating];
@@ -166,17 +160,19 @@
                 [self.tableView reloadData];
             }];
         }];
-    } else if (searchBar.selectedScopeButtonIndex == 1) {
-        NSString *code = @"code";
-        [NetworkController downloadSearchResults:searchTerm forScope:code withCompletion:^(NSArray *code, NSString *errorDescription) {
-            _results = code;
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                NSLog(@"Reloading Table");
-                [self.tableView reloadData];
-                self.tableView.hidden = false;
-            }];
-        }];
-    } else {
+    }
+//    else if (searchBar.selectedScopeButtonIndex == 1) {
+//        NSString *code = @"code";
+//        [NetworkController downloadSearchResults:searchTerm forScope:code withCompletion:^(NSArray *code, NSString *errorDescription) {
+//            _results = code;
+//            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+//                NSLog(@"Reloading Table");
+//                [self.tableView reloadData];
+//                self.tableView.hidden = false;
+//            }];
+//        }];
+//    }
+else {
         self.collectionView.hidden = false;
         self.activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhiteLarge];
         self.activityIndicator.center = self.collectionView.center;
@@ -185,7 +181,7 @@
 
         NSString *users = @"users";
         [NetworkController downloadSearchResults:searchTerm forScope:users withCompletion:^(NSArray *users, NSString *errorDescription) {
-            _results = users;
+            _users = users;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSLog(@"Reloading Table");
                 [self.collectionView reloadData];
