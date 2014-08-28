@@ -18,9 +18,6 @@
         self.html_url = [responseDict objectForKey:@"html_url"];
         self.followers_url = [responseDict objectForKey:@"followers_url"];
         self.login = [responseDict objectForKey:@"login"];
-        NSURL *avatarURL = [NSURL URLWithString:self.avatar_url];
-        NSData *data = [NSData dataWithContentsOfURL:avatarURL];
-        self.avatarImage = [UIImage imageWithData:data];
     }
     return self;
 }

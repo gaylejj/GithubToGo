@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		25570B9219AE75250053A9CD /* UserCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25570B9119AE75250053A9CD /* UserCollectionViewCell.m */; };
+		25570B9519AF91D00053A9CD /* WebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25570B9419AF91D00053A9CD /* WebViewViewController.m */; };
 		25A5C0DF19ABD1BB00574499 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5C0DE19ABD1BB00574499 /* main.m */; };
 		25A5C0E219ABD1BB00574499 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5C0E119ABD1BB00574499 /* AppDelegate.m */; };
 		25A5C0E519ABD1BB00574499 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5C0E419ABD1BB00574499 /* ViewController.m */; };
@@ -40,6 +41,8 @@
 /* Begin PBXFileReference section */
 		25570B9019AE75250053A9CD /* UserCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCollectionViewCell.h; sourceTree = "<group>"; };
 		25570B9119AE75250053A9CD /* UserCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCollectionViewCell.m; sourceTree = "<group>"; };
+		25570B9319AF91D00053A9CD /* WebViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewViewController.h; sourceTree = "<group>"; };
+		25570B9419AF91D00053A9CD /* WebViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewViewController.m; sourceTree = "<group>"; };
 		25A5C0D919ABD1BB00574499 /* GithubToGo2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubToGo2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25A5C0DD19ABD1BB00574499 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25A5C0DE19ABD1BB00574499 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -166,6 +169,8 @@
 				25DDC18419AD8C58001BFF71 /* UserViewController.m */,
 				25A5C10519ABD23D00574499 /* NetworkController.h */,
 				25A5C10619ABD23D00574499 /* NetworkController.m */,
+				25570B9319AF91D00053A9CD /* WebViewViewController.h */,
+				25570B9419AF91D00053A9CD /* WebViewViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -298,6 +303,7 @@
 			files = (
 				25A5C0E519ABD1BB00574499 /* ViewController.m in Sources */,
 				25B9294019AD2045007097E4 /* RepositoriesViewController.m in Sources */,
+				25570B9519AF91D00053A9CD /* WebViewViewController.m in Sources */,
 				25B10B1E19AC4956001174F0 /* User.m in Sources */,
 				25A5C0E219ABD1BB00574499 /* AppDelegate.m in Sources */,
 				25A5C0DF19ABD1BB00574499 /* main.m in Sources */,

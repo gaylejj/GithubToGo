@@ -13,12 +13,15 @@
 #import "User.h"
 #import "Constants.h"
 #import "UserCollectionViewCell.h"
+#import "WebViewViewController.h"
 
 @interface SearchViewController () <UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *results;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) NSOperationQueue *imageQueue;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -27,6 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.searchBar.delegate = self;
+    self.imageQueue = [[NSOperationQueue alloc]init];
     // Do any additional setup after loading the view.
 }
 
@@ -35,6 +39,21 @@
     [self.tableView reloadData];
     self.collectionView.hidden = true;
 }
+
+-(void)fetchUserImages:(NSString *)avatar_url withCompletion:(void (^)(UIImage *avatarImage))completion {
+    
+    [self.imageQueue addOperationWithBlock:^{
+        NSURL *avatarURL = [NSURL URLWithString:avatar_url];
+        NSData *data = [NSData dataWithContentsOfURL:avatarURL];
+        UIImage *avatarImage = [UIImage imageWithData:data];
+        [[NSOperationQueue mainQueue]addOperationWithBlock:^{
+            completion(avatarImage);
+        }];
+    }];
+
+}
+
+#pragma mark Table View Data Source
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.results.count;
@@ -73,12 +92,30 @@
     return cell;
 }
 
+#pragma mark Collection View Data Source
+
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UserCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"users" forIndexPath:indexPath];
     
+    
+    //Tagging for loading cells individually (see kirby's). If image == nil...
     if (self.searchBar.selectedScopeButtonIndex == 2) {
         User *user = self.results[indexPath.row];
-        cell.avatarImageView.image = user.avatarImage;
+        
+        NSInteger currentTag = cell.tag + 1;
+        cell.tag = currentTag;
+
+        if (user.avatarImage == nil) {
+            [self fetchUserImages:user.avatar_url withCompletion:^(UIImage *avatarImage) {
+                if (cell.tag == currentTag) {
+                    cell.avatarImageView.image = avatarImage;
+                    user.avatarImage = avatarImage;
+                }
+                [self.activityIndicator stopAnimating];
+            }];
+        } else {
+            cell.avatarImageView.image = user.avatarImage;
+        }
         cell.nameLabel.text = user.login;
         cell.nameLabel.adjustsFontSizeToFitWidth = true;
     }
@@ -90,6 +127,22 @@
     return self.results.count;
 }
 
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier:@"webView" sender:indexPath];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    WebViewViewController *webViewVC = segue.destinationViewController;
+    
+    NSIndexPath *indexPath = sender;
+    User *user = self.results[indexPath.row];
+    webViewVC.html_url = user.html_url;
+    
+}
+
+#pragma mark Search Bar Delegate Methods
+
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     NSString *searchTerm = searchBar.text;
     [searchBar resignFirstResponder];
@@ -98,16 +151,16 @@
     
     if (searchBar.selectedScopeButtonIndex == 0) {
         NSString *repositories = @"repositories";
-        UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleGray];
-        activityIndicator.center = self.collectionView.center;
-        [activityIndicator startAnimating];
-        [self.view addSubview:activityIndicator];
+        self.activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleGray];
+        self.activityIndicator.center = self.collectionView.center;
+        [self.activityIndicator startAnimating];
+        [self.view addSubview:self.activityIndicator];
         
         [NetworkController downloadSearchResults:searchTerm forScope:repositories withCompletion:^(NSArray *repositories, NSString *errorDescription) {
             _results = repositories;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSLog(@"Reloading Table");
-                [activityIndicator stopAnimating];
+                [self.activityIndicator stopAnimating];
 
                 self.tableView.hidden = false;
                 [self.tableView reloadData];
@@ -115,8 +168,8 @@
         }];
     } else if (searchBar.selectedScopeButtonIndex == 1) {
         NSString *code = @"code";
-        [NetworkController downloadSearchResults:searchTerm forScope:code withCompletion:^(NSArray *repositories, NSString *errorDescription) {
-            _results = repositories;
+        [NetworkController downloadSearchResults:searchTerm forScope:code withCompletion:^(NSArray *code, NSString *errorDescription) {
+            _results = code;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSLog(@"Reloading Table");
                 [self.tableView reloadData];
@@ -125,17 +178,16 @@
         }];
     } else {
         self.collectionView.hidden = false;
-        UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhiteLarge];
-        activityIndicator.center = self.collectionView.center;
-        [activityIndicator startAnimating];
-        [self.view addSubview:activityIndicator];
+        self.activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhiteLarge];
+        self.activityIndicator.center = self.collectionView.center;
+        [self.activityIndicator startAnimating];
+        [self.view addSubview:self.activityIndicator];
 
         NSString *users = @"users";
-        [NetworkController downloadSearchResults:searchTerm forScope:users withCompletion:^(NSArray *repositories, NSString *errorDescription) {
-            _results = repositories;
+        [NetworkController downloadSearchResults:searchTerm forScope:users withCompletion:^(NSArray *users, NSString *errorDescription) {
+            _results = users;
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 NSLog(@"Reloading Table");
-                [activityIndicator stopAnimating];
                 [self.collectionView reloadData];
             }];
         }];
@@ -166,15 +218,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
