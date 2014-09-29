@@ -94,6 +94,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		257C86D619B4D1E40069D828 /* Search VC */ = {
+			isa = PBXGroup;
+			children = (
+				25A5C10A19ABECF200574499 /* SearchViewController.h */,
+				25A5C10B19ABECF200574499 /* SearchViewController.m */,
+			);
+			name = "Search VC";
+			sourceTree = "<group>";
+		};
+		257C86D719B4D1ED0069D828 /* User VCs */ = {
+			isa = PBXGroup;
+			children = (
+				25B9293E19AD2045007097E4 /* RepositoriesViewController.h */,
+				25B9293F19AD2045007097E4 /* RepositoriesViewController.m */,
+				25DDC18319AD8C58001BFF71 /* UserViewController.h */,
+				25DDC18419AD8C58001BFF71 /* UserViewController.m */,
+			);
+			name = "User VCs";
+			sourceTree = "<group>";
+		};
 		25A5C0D019ABD1BB00574499 = {
 			isa = PBXGroup;
 			children = (
@@ -159,18 +179,14 @@
 		25A5C0FF19ABD1BF00574499 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				25A5C0E319ABD1BB00574499 /* ViewController.h */,
-				25A5C0E419ABD1BB00574499 /* ViewController.m */,
-				25A5C10A19ABECF200574499 /* SearchViewController.h */,
-				25A5C10B19ABECF200574499 /* SearchViewController.m */,
-				25B9293E19AD2045007097E4 /* RepositoriesViewController.h */,
-				25B9293F19AD2045007097E4 /* RepositoriesViewController.m */,
-				25DDC18319AD8C58001BFF71 /* UserViewController.h */,
-				25DDC18419AD8C58001BFF71 /* UserViewController.m */,
 				25A5C10519ABD23D00574499 /* NetworkController.h */,
 				25A5C10619ABD23D00574499 /* NetworkController.m */,
 				25570B9319AF91D00053A9CD /* WebViewViewController.h */,
 				25570B9419AF91D00053A9CD /* WebViewViewController.m */,
+				257C86D719B4D1ED0069D828 /* User VCs */,
+				257C86D619B4D1E40069D828 /* Search VC */,
+				25A5C0E319ABD1BB00574499 /* ViewController.h */,
+				25A5C0E419ABD1BB00574499 /* ViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

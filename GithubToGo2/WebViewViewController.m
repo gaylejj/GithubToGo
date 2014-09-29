@@ -19,7 +19,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
     // Do any additional setup after loading the view.
 }
 
@@ -32,6 +31,7 @@
     NSURL *url = [NSURL URLWithString:self.html_url];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
     [webView loadRequest:request];
+    
 }
 
 - (void)didReceiveMemoryWarning {

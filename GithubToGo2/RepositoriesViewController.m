@@ -16,7 +16,7 @@
 @property (strong, nonatomic) NSMutableArray *myRepositories;
 @property (strong, nonatomic) UIBarButtonItem *createRepoButton;
 @property (strong, nonatomic) NetworkController *appDelegateNetworkController;
-@property (strong, nonatomic) UIAlertController *createAlertView;
+@property (strong, nonatomic) UIAlertController *alertController;
 
 @end
 
@@ -39,23 +39,14 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-/*    
- self.oAuthToken = [[NSUserDefaults standardUserDefaults] objectForKey:GITHUB_TOKEN_KEY];
-    if (!self.oAuthToken) {
-        NSString * authURL = [NSString stringWithFormat:GITHUB_OAUTH_URL,GITHUB_CLIENT_ID,GITHUB_REDIRECT, @"user,repo"];
-        NSLog(@"%@",authURL);
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:authURL]];
-    } else {
-        [self.delegate didAuthenticate];
-    }
- */
+
     [self.appDelegateNetworkController beginOAuth];
 
 }
 
 -(void)setupCreateAlertView {
-    self.createAlertView = [UIAlertController alertControllerWithTitle:@"Create a Repo" message:@"Enter a name for your repo below" preferredStyle:UIAlertControllerStyleAlert];
-    [self.createAlertView addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+    self.alertController = [UIAlertController alertControllerWithTitle:@"Create a Repo" message:@"Enter a name for your repo below" preferredStyle:UIAlertControllerStyleAlert];
+    [self.alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.adjustsFontSizeToFitWidth = true;
         textField.placeholder = @"Repo Name Here";
     }];
@@ -67,9 +58,9 @@
     
     UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
     
-    [self.createAlertView addAction:createButton];
-    [self.createAlertView addAction:cancelButton];
-    [self presentViewController:self.createAlertView animated:true completion:nil];
+    [self.alertController addAction:createButton];
+    [self.alertController addAction:cancelButton];
+    [self presentViewController:self.alertController animated:true completion:nil];
 }
 
 -(void)createRepoForUser {
@@ -107,6 +98,11 @@
         [self.tableView reloadData];
     }];
 };
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    //Implement code for webview or download of assets
+    [tableView deselectRowAtIndexPath:indexPath animated:true];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
